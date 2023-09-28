@@ -1,0 +1,18 @@
+post_install() {
+  grep -qe '^/usr/bin/osh$' etc/shells || echo '/usr/bin/osh' >> etc/shells
+  grep -qe '^/bin/osh$' etc/shells || echo '/bin/osh' >> etc/shells
+  grep -qe '^/usr/bin/ysh$' etc/shells || echo '/usr/bin/ysh' >> etc/shells
+  grep -qe '^/bin/ysh$' etc/shells || echo '/bin/ysh' >> etc/shells
+}
+
+post_upgrade() {
+  post_install
+}
+
+pre_remove() {
+  sed -ri -e '\|^/usr/bin/osh$|d' \
+          -e '\|^/bin/osh$|d' \
+          -e '\|^/usr/bin/ysh$|d' \
+          -e '\|^/bin/ysh$|d' \
+          etc/shells
+}
